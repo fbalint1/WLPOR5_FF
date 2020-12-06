@@ -18,7 +18,7 @@ namespace WLPOR5_FF
         /// </summary>
         /// <param name="companyName_">This will be used in the 2 txt files. Format {companyName_}_input.txt</param>
         /// <param name="filename_">Path to the .csv file from the site</param>
-        public static void ConvertDataToNetworkReady(string companyName_, string filename_)
+        public static void ConvertDataToNetworkReady(string companyName_, string filename_, int numberOfInputs_, int numberOfOutputs_)
         {
             var lines = File.ReadAllLines(filename_)
                 .Skip(1)
@@ -38,7 +38,7 @@ namespace WLPOR5_FF
             {
                 string input = line.Date;
 
-                var previousPrices = GetElements(closePrices, i, 20, true);
+                var previousPrices = GetElements(closePrices, i, numberOfInputs_, true);
 
                 previousPrices.ForEach(x => input += ";" + x);
 
@@ -46,7 +46,7 @@ namespace WLPOR5_FF
 
                 string output = string.Empty;
 
-                var nextPrices = GetElements(closePrices, i++, 10, false);
+                var nextPrices = GetElements(closePrices, i++, numberOfOutputs_, false);
 
                 nextPrices.ForEach(x => output += x + ";");
 

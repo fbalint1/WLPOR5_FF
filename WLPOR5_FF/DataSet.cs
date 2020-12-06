@@ -9,11 +9,11 @@ namespace WLPOR5_FF
 {
     class DataSet
     {
-        public const int INPUT_SIZE = 20;
+        public int InputSize { get; set; }
         public List<float> Input { get; set; } = new List<float>();
 
-        public const int OUTPUT_SIZE = 10;
-        public List<float> Output { get; set; }
+        public int OutputSize { get; set; }
+        public List<float> Output { get; set; } = new List<float>();
 
         public int Count { get; set; }
 
@@ -26,11 +26,11 @@ namespace WLPOR5_FF
         private void LoadInputs(string filename_)
         {
             var lines = File.ReadAllLines(filename_);
-
+            InputSize = lines[0].Split(';').Length - 1;
             foreach (var line in lines)
             {
                 var data = line.Split(';');
-                Count += data.Length - 1;
+                Count++;
 
                 for (int i = 1; i < data.Length; i++)
                 {
@@ -39,9 +39,19 @@ namespace WLPOR5_FF
             }
         }
 
-        private void LoadOutputs(string filename)
+        private void LoadOutputs(string filename_)
         {
+            var lines = File.ReadAllLines(filename_);
+            OutputSize = lines[0].Split(';').Length;
+            foreach (var line in lines)
+            {
+                var data = line.Split(';');
 
+                for (int i = 0; i < data.Length; i++)
+                {
+                    Output.Add(float.Parse(data[i]));
+                }
+            }
         }
     }
 }
